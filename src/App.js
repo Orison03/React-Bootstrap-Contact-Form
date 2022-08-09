@@ -1,47 +1,72 @@
 import React, { Component } from "react";
-import { Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Contact from "./Components/Contact";
-import ContactsForm from "./Components/ContactsForm";
+import { Container, Row, Col } from "react-bootstrap";
+import AllContact from "./Components/AllContact";
+import AddContactForm from "./Components/AddContactForm";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      contact: [
+      user: [
         {
           name: "John Felix Cena",
-          phoneNumber: "+343 - 532 - 656",
-          location: "Massachusetts",
+          phoneNumber: "+353 - 546 - 646",
+          location: "New York",
+          id: "attitude adjustment",
         },
-        // {
-        //   name: "Seth Rollins",
-        //   phoneNumber: "+546 - 362 - 866",
-        //   location: " Davenport",
-        // },
+        {
+          name: "Seth Rollins",
+          phoneNumber: "+343 - 679 - 622",
+          location: "Toronto",
+          id: "pedigree",
+        },
       ],
     };
   }
 
-  addContact = (user) => {
+  addNewUser = (person) => {
+    person.id = Math.random().toString();
     this.setState({
-      contact: [...this.state.contact, user]
-    })
-  }
+      user: [...this.state.user, person],
+    });
+  };
+
+  deleteUser = (id) => {
+    let notDeletedUsers = this.state.user.filter((item) => item.id !== id);
+    this.setState({
+      user: notDeletedUsers,
+    });
+  };
+
+  updateUser = (id, newUser) => {
+    this.setState({
+      user: this.state.user.map((item) => {
+        if (item.id === id) {
+          return newUser
+        }
+
+      return item
+      }),
+    }
+    );
+  };
 
   render() {
     return (
-      <Container style={{ marginTop: "1rem", marginRight: "90px" }}>
-        <Row>
-          <Col md="4">
-            <ContactsForm newContact={this.addContact}/>
-          </Col>
-          <Col>
-            <Contact addContact={this.state.contact} />
-          </Col>
-        </Row>
-      </Container>
+      <div>
+        <Container style={{ marginTop: "4rem" }}>
+          <Row>
+            <Col md="4">
+              <AddContactForm addPerson={this.addNewUser} />
+            </Col>
+            <Col>
+              <AllContact userAdd={this.state.user} deleteUser={this.deleteUser} userUpdate={this.updateUser} />
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
 }

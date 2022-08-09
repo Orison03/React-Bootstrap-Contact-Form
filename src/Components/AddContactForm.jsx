@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import {Form,Button} from "react-bootstrap"
+import {Form, Button} from "react-bootstrap"
 
-class ContactsForm extends Component {
+
+class AddContactForm extends Component {
   constructor(props) {
     super(props);
 
@@ -9,6 +10,7 @@ class ContactsForm extends Component {
       name: "",
       phoneNumber: "",
       location: "",
+      id: ""
     };
   }
 
@@ -21,20 +23,28 @@ class ContactsForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.newContact(this.state)
+    this.props.addPerson(this.state)
     this.setState({
       name: "",
       phoneNumber: "",
-      location: ""
+      location: "",
     });
   }
 
   render() {
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form
+          onSubmit={this.handleSubmit}
+          style={{
+            border: "2px solid grey",
+            padding: "4rem",
+            borderRadius: "10px",
+            boxShadow: "0 0 3px black",
+          }}
+        >
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Name</Form.Label>
+            <h6>Name</h6>
             <Form.Control
               type="text"
               placeholder="Enter your fullname"
@@ -44,7 +54,7 @@ class ContactsForm extends Component {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Phone Number</Form.Label>
+            <h6>Phone Number</h6>
             <Form.Control
               type="text"
               placeholder="Enter your Phone Number"
@@ -54,7 +64,7 @@ class ContactsForm extends Component {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Location</Form.Label>
+            <h6>Location</h6>
             <Form.Control
               type="text"
               placeholder="Enter your Location"
@@ -63,11 +73,13 @@ class ContactsForm extends Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-          <Button variant="danger" type="submit">Submit</Button>{" "}
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
         </Form>
       </div>
     );
   }
 }
 
-export default ContactsForm
+export default AddContactForm
